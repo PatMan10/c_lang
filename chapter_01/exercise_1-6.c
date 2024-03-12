@@ -11,5 +11,6 @@ int main() {
     putchar(c);
   }
   printf("\nc != EOF -> %d\n", c != EOF);
+
   return 0;
 }

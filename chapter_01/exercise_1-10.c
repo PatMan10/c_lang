@@ -1,5 +1,9 @@
 #include <stdio.h>
 
+/*
+ * Character Input and Output
+ */
+
 int main() {
   int c;
 

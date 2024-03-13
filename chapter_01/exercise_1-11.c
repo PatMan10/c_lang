@@ -31,9 +31,9 @@ int main() {
     }
     prev = cur;
   }
-  printf("%d chars\n", chars);
-  printf("%d words\n", words);
-  printf("%d lines\n", lines);
+  printf("%d char(s)\n", chars);
+  printf("%d word(s)\n", words);
+  printf("%d line(s)\n", lines);
   
   return 0;
 }

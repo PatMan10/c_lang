@@ -9,30 +9,43 @@ int blank(char c) {
   return c == ' ' || c == '\t' || c == '\n';
 }
 
+void print_barchart(int lengths[], int size) {
+  for (int idx = 0; idx < size; ++idx) {
+    int cur_len = lengths[idx];
+    for (int len = 0; len < cur_len; ++len) {
+      putchar('-');
+      if (len == cur_len - 1) {
+        printf("%d", cur_len);
+        putchar('\n');
+      }
+    }
+  }
+}
+
 int main() {
-  int cur, prev = ' ', length = 0, size = 0;
-  int lengths[100] = {};
+  int cur, prev = ' ';
+  int length = 0, size = 0;
+  const int MAX = 10;
+  int lengths[MAX] = {};
 
   while ((cur = getchar()) != EOF) {
+    if (size == MAX) {
+      break;
+    }
 
     if (!blank(cur))
       ++length;
 
     if (blank(cur) && !blank(prev)) {
-      system("clear");
+      // system("clear");
       lengths[size] = length;
       ++size;
-
-      for (int w = 0; w < size; ++w) {
-        for (int l = 0; l < lengths[w]; ++l) {
-          if (l < length) putchar('~');
-          if (l == length - 1) printf(" %d\n", length);
-        }
-        length = 0;
-      }
+      length = 0;
     }
     prev = cur;
   }
+
+  print_barchart(lengths, size);
 
   return 0;
 }

@@ -1,8 +1,12 @@
 #include <stdio.h>
 
 /*
- * Print Celsius to Fahrenheit table
+ * Print Celsius to Fahrenheit table, use function for conversion.
  */
+
+float cel_to_fahr(float c) {
+  return (c * 1.8) + 32.0;
+}
 
 int main() {
   float fahr, cels;
@@ -14,7 +18,7 @@ int main() {
   cels = lower;
   printf("Celsius to Fahrenheit\n\n");
   while (cels <= upper) {
-    fahr = (cels * 1.8) + 32.0;
+    fahr = cel_to_fahr(cels);
     printf("%6.1f\t%3.1f\n", cels, fahr);
     cels = cels + step;
   }

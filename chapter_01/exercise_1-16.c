@@ -35,12 +35,12 @@ int main() {
 }
 
 // read up to [max_length] characters into [line]
-int read_line(char line[], int max_length) {
+int read_line(char buffer[], int size) {
   int i, c;
-  for (i = 0; i < max_length - 1 && (c = getchar()) != '\n' && c != EOF; ++i) {
-    line[i] = c;
+  for (i = 0; i < size - 1 && (c = getchar()) != '\n' && c != EOF; ++i) {
+    buffer[i] = c;
   }
-  line[i] = '\0';
+  buffer[i] = '\0';
   return i;
 }
 

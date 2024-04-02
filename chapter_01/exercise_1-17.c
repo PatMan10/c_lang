@@ -10,13 +10,13 @@
 int read_line(char line[], int max_length);
 
 int main() {
-  const int buff_size = 101;
-  char line[buff_size] = {};
+  const int size = 101;
+  char buffer[size] = {};
   int length = 0;
 
-  while ((length = read_line(line, buff_size)) > 0) {
+  while ((length = read_line(buffer, size)) > 0) {
     if (length >= MIN_LENGTH) {
-      printf("%d %s\n", length, line);
+      printf("%d %s\n", length, buffer);
     }
   }
 

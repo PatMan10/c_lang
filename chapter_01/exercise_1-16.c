@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /*
- * Longest line.
+ * Print longest line.
  */
 
 #define MAX_LENGTH 11
@@ -13,7 +13,7 @@ void copy(char from[], char to[]);
 int main() {
   char max_line[MAX_LENGTH] = {},
        cur_line[MAX_LENGTH] = {};
-  int max_length = 0, cur_length, c;
+  int max_length = 0, cur_length;
 
   while ((cur_length = read_line(cur_line, MAX_LENGTH)) > 0) {
     printf("%d %s\n", cur_length, cur_line);

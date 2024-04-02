@@ -16,7 +16,7 @@ int main() {
 
   while ((length = read_line(buffer, size)) > 0) {
     trim(buffer, trimmed);
-    printf("%s\n", trimmed);
+    printf("'%s'\n", trimmed);
   }
 
   return 0;
@@ -51,17 +51,10 @@ void trim(char from[], char to[]) {
     ++i;
   }
 
-  i = 0;
-  while (c = from[i]) {
-    if (i >= first && i <= last) {
-      to[i] = c;
-      printf("'%c'", to[i]);
-    }
-    if (i > last) {
-      to[i] = '\0';
-      printf("\nfrom: '%s'\nto: '%s'\n", from, to);
-      return;
-    }
-    ++i;
+  // find index of first and last non-blank characters
+  for (i = 0; first <= last; ++i) {
+    to[i] = from[first];
+    ++first;
   }
+  to[i] = '\0';
 }

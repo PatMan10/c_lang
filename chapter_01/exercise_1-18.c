@@ -50,7 +50,7 @@ void trim(char string[]) {
     ++a;
   }
 
-  int buff_size = a;
+  int str_size = a;
   int sub_size = last - first + 2; // +1 for 0 based and +1 for null byte
   char substr[sub_size] = {};
 
@@ -62,7 +62,7 @@ void trim(char string[]) {
   }
 
   // clear string
-  for (a = 0; a < buff_size; a++) {
+  for (a = 0; a < str_size; a++) {
     string[a] = '\0';
   }
 

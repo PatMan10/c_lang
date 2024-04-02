@@ -16,6 +16,7 @@ int main() {
   int max_length = 0, cur_length, c;
 
   while ((cur_length = read_line(cur_line, MAX_LENGTH)) > 0) {
+    printf("%d %s\n", cur_length, cur_line);
     if (cur_length >= max_length) {
       copy(cur_line, max_line);
       max_length = cur_length;

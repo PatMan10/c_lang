@@ -6,17 +6,16 @@
  */
 
 int read_line(char line[], int max_length);
-void trim(char from[], char to[]);
+void trim(char string[]);
 
 int main() {
   const int size = 101;
-  char buffer[size] = {},
-       trimmed[size] = {};
+  char string[size] = {};
   int length = 0;
 
-  while ((length = read_line(buffer, size)) > 0) {
-    trim(buffer, trimmed);
-    printf("'%s'\n", trimmed);
+  while ((length = read_line(string, size)) > 0) {
+    trim(string);
+    printf("'%s'\n", string);
   }
 
   return 0;
@@ -36,25 +35,40 @@ int blank(char c) {
   return c == ' ' || c == '\t' || c == '\n';
 }
 
-// copy characters [from] [to], remove preceding and trailing white space
-void trim(char from[], char to[]) {
-  int first = 0, last = 0, i = 0, c;
+// remove preceding and trailing white space from [string]
+void trim(char string[]) {
+  int first = 0, last = 0, a = 0, b = 0, c;
 
   // find index of first and last non-blank characters
-  while (c = from[i]) {
+  while (c = string[a]) {
     if (!first && !blank(c)) {
-      first = i;
+      first = a;
     }
     if (!blank(c)) {
-      last = i;
+      last = a;
     }
-    ++i;
+    ++a;
   }
 
-  // find index of first and last non-blank characters
-  for (i = 0; first <= last; ++i) {
-    to[i] = from[first];
-    ++first;
+  int buff_size = a;
+  int sub_size = last - first + 2; // +1 for 0 based and +1 for null byte
+  char substr[sub_size] = {};
+
+  // copy sub-string to substr
+  b = first;
+  for (a = 0; b <= last; ++a) {
+    substr[a] = string[b];
+    ++b;
   }
-  to[i] = '\0';
+
+  // clear string
+  for (a = 0; a < buff_size; a++) {
+    string[a] = '\0';
+  }
+
+  // copy substr to string
+  for (a = 0; a < sub_size; ++a) {
+    string[a] = substr[a];
+  }
+  string[a] = '\0';
 }

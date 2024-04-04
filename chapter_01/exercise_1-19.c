@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 /*
- * Remove preceding and trailing white space then print line.
+ * Reverse characters then print line.
  */
 
 int read_line(char line[], int max_length);

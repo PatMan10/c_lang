@@ -1,0 +1,12 @@
+1 tab = 2 spaces
+input:  "\t  \s 'asd' \s    "
+output: "\s\s\s 'asd' \s\s\s"
+
+input:  "\t   \s 'xxx' \s\t\t 'xx' \t 'x'"
+output: "\s\s \s 'xxx' \s\s\s"
+
+1. Get length of input.
+2. Count blanks [total spaces, total tabs, longest sequence, spaces in longest, tabs in longest].
+3. Calculate blank-stop.
+4. Calculate new buffer size.
+5. Copy data into new buffer replacing blanks with blank-stop.

@@ -65,6 +65,10 @@ void count_blanks(char buffer[], int counts[5]) {
         counts[3] = max_spaces;
         counts[4] = max_tabs;
       }
+    } else {
+      max_seq = 0;
+      max_spaces = 0;
+      max_tabs = 0;
     }
     ++i;
     prev = cur;

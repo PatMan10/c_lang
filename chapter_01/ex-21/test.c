@@ -1,8 +1,12 @@
-#include "lib.h"
+#include <stdio.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
-// STR_LEN
+#include "lib.h"
+
+// ####################
+// str_len
+// ####################
 Test(str_len, pass) {
   int result = str_len("");
   cr_assert_eq(result, 0);
@@ -14,7 +18,9 @@ Test(str_len, pass) {
   cr_assert_eq(result, 3);
 }
 
-// SPACE
+// ####################
+// space
+// ####################
 Test(space, yes) {
   char c = ' ';
   cr_assert_eq(space(c), 1);
@@ -25,7 +31,9 @@ Test(space, no) {
   cr_assert_eq(space(c), 0);
 }
 
-// TAB
+// ####################
+// tab
+// ####################
 Test(tab, yes) {
   char c = '\t';
   cr_assert_eq(tab(c), 1);
@@ -36,7 +44,9 @@ Test(tab, no) {
   cr_assert_eq(tab(c), 0);
 }
 
-// BLANK
+// ####################
+// blank
+// ####################
 Test(blank, yes) {
   char c = ' ';
   cr_assert_eq(blank(c), 1);
@@ -53,8 +63,9 @@ Test(blank, no) {
   cr_assert_eq(blank(c), 0);
 }
 
-
-// BLANK_SEQ
+// ####################
+// blank_seq
+// ####################
 Test(blank_seq, yes) {
   char prev = 'a', cur = ' ';
   cr_assert_eq(blank_seq(prev, cur), 1);
@@ -69,4 +80,43 @@ Test(blank_seq, no) {
 
   prev = 'a', cur = 'b';
   cr_assert_eq(blank_seq(prev, cur), 0);
+}
+
+// ####################
+// count_blanks
+// ####################
+Test(count_blanks, _1) {
+  char str[] = "a string \t";
+  int counts[] = {0,0,0,0,0};
+
+  count_blanks(str, counts);
+  cr_assert_eq(counts[0], 2);
+  cr_assert_eq(counts[1], 1);
+  cr_assert_eq(counts[2], 2);
+  cr_assert_eq(counts[3], 1);
+  cr_assert_eq(counts[4], 1);
+}
+
+Test(count_blanks, _2) {
+  char str[] = "a string \t\t a";
+  int counts[] = {0,0,0,0,0};
+
+  count_blanks(str, counts);
+  cr_assert_eq(counts[0], 3);
+  cr_assert_eq(counts[1], 2);
+  cr_assert_eq(counts[2], 4);
+  cr_assert_eq(counts[3], 2);
+  cr_assert_eq(counts[4], 2);
+}
+
+Test(count_blanks, _3) {
+  char str[] = "\t     xxx  \t\t xx \t x";
+  int counts[] = {0,0,0,0,0};
+
+  count_blanks(str, counts);
+  cr_assert_eq(counts[0], 10);
+  cr_assert_eq(counts[1], 4);
+  cr_assert_eq(counts[2], 6);
+  cr_assert_eq(counts[3], 5);
+  cr_assert_eq(counts[4], 1);
 }

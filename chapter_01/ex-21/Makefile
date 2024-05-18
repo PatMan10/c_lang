@@ -1,8 +1,8 @@
 build-app:
-	gcc lib.c main.c -o app;
+	gcc ./src/lib.c ./src/main.c -o ./bin/app;
 
 build-test:
-	gcc lib.c test.c -lcriterion -o test;
+	gcc ./src/lib.c ./src/test.c -lcriterion -o ./bin/test;
 
 clean:
-	rm test app;
+	rm ./bin/*;

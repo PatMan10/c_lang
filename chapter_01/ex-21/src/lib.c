@@ -38,7 +38,7 @@ int blank_seq(char prev, char cur) {
 
 void count_blanks(char buffer[], int counts[5]) {
   int i = 0, prev, cur;
-  int max_seq = 0, max_spaces = 0, max_tabs = 0;
+  int longest_seq = 0, longest_spaces = 0, longest_tabs = 0;
   while (cur = buffer[i]) {
     // total spaces
     if (space(cur)) {
@@ -50,27 +50,31 @@ void count_blanks(char buffer[], int counts[5]) {
     }
     // longest sequence of blanks
     if (blank_seq(prev, cur)) {
-      ++max_seq;
+      ++longest_seq;
       // total spaces in longest sequence
       if (space(cur)) {
-        ++max_spaces;
+        ++longest_spaces;
       }
       // total tabs in longest sequence
       if (tab(cur)) {
-        ++max_tabs;
+        ++longest_tabs;
       }
 
-      if (max_seq > counts[2]) {
-        counts[2] = max_seq;
-        counts[3] = max_spaces;
-        counts[4] = max_tabs;
+      if (longest_seq > counts[2]) {
+        counts[2] = longest_seq;
+        counts[3] = longest_spaces;
+        counts[4] = longest_tabs;
       }
     } else {
-      max_seq = 0;
-      max_spaces = 0;
-      max_tabs = 0;
+      longest_seq = 0;
+      longest_spaces = 0;
+      longest_tabs = 0;
     }
     ++i;
     prev = cur;
   }
+}
+
+int get_blank_stop(int counts[3], int n_spaces) {
+  return counts[1] + counts[2] * n_spaces;
 }

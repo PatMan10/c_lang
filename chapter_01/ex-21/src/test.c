@@ -64,23 +64,37 @@ Test(blank, no) {
 }
 
 // ####################
-// blank_seq
+// blank_sequence
 // ####################
-Test(blank_seq, yes) {
+Test(blank_sequence, yes) {
   char prev = 'a', cur = ' ';
-  cr_assert_eq(blank_seq(prev, cur), 1);
+  cr_assert_eq(blank_sequence(prev, cur), 1);
 
   prev = '\t', cur = ' ';
-  cr_assert_eq(blank_seq(prev, cur), 1);
+  cr_assert_eq(blank_sequence(prev, cur), 1);
 }
 
-Test(blank_seq, no) {
+Test(blank_sequence, no) {
   char prev = ' ', cur = 'a';
-  cr_assert_eq(blank_seq(prev, cur), 0);
+  cr_assert_eq(blank_sequence(prev, cur), 0);
 
   prev = 'a', cur = 'b';
-  cr_assert_eq(blank_seq(prev, cur), 0);
+  cr_assert_eq(blank_sequence(prev, cur), 0);
 }
+
+// ####################
+// blank_sequence
+// ####################
+Test(counts_new, yes) {
+  Counts c = counts_new();
+  cr_assert_eq(c.total_spaces, 0);
+  cr_assert_eq(c.total_tabs, 0);
+  cr_assert_eq(c.total_sequences, 0);
+  cr_assert_eq(c.longest_sequence, 0);
+  cr_assert_eq(c.total_spaces_in_longest_sequence, 0);
+  cr_assert_eq(c.total_tabs_in_longest_sequence, 0);
+}
+
 
 // ####################
 // count_blanks

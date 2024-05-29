@@ -105,7 +105,7 @@ Test(count_blanks, _1) {
 
   cr_assert_eq(counts.total_spaces, 2);
   cr_assert_eq(counts.total_tabs, 1);
-  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.total_sequences, 2);
   cr_assert_eq(counts.longest_sequence, 2);
   cr_assert_eq(counts.total_spaces_in_longest_sequence, 1);
   cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);
@@ -117,7 +117,7 @@ Test(count_blanks, _2) {
 
   cr_assert_eq(counts.total_spaces, 3);
   cr_assert_eq(counts.total_tabs, 2);
-  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.total_sequences, 2);
   cr_assert_eq(counts.longest_sequence, 4);
   cr_assert_eq(counts.total_spaces_in_longest_sequence, 2);
   cr_assert_eq(counts.total_tabs_in_longest_sequence, 2);
@@ -129,7 +129,7 @@ Test(count_blanks, _3) {
 
   cr_assert_eq(counts.total_spaces, 10);
   cr_assert_eq(counts.total_tabs, 4);
-  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.total_sequences, 3);
   cr_assert_eq(counts.longest_sequence, 6);
   cr_assert_eq(counts.total_spaces_in_longest_sequence, 5);
   cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);

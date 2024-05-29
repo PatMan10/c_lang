@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 
 #include "lib.h"
@@ -19,22 +20,22 @@ int str_len(char buffer[]) {
   return i;
 }
 
-int space(char c) {
-  return c == ' ' ? 1 : 0;
+bool space(char c) {
+  return c == ' ' ? true : false;
 }
 
-int tab(char c) {
-  return c == '\t' ? 1 : 0;
+bool tab(char c) {
+  return c == '\t' ? true : false;
 }
 
-int blank(char c) {
-  return space(c) || tab(c) ? 1 : 0;
+bool blank(char c) {
+  return space(c) || tab(c) ? true : false;
 }
 
-int blank_sequence(char prev, char cur) {
+bool blank_sequence(char prev, char cur) {
   int one = !blank(prev) && blank(cur);
   int two = blank(prev) && blank(cur);
-  return one || two ? 1 : 0;
+  return one || two ? true : false;
 }
 
 Counts counts_new() {
@@ -62,7 +63,7 @@ void counts_print(Counts counts) {
 Counts count_blanks(char buffer[]) {
   int i = 0, prev, cur;
   int longest_sequence = 0, longest_spaces = 0, longest_tabs = 0;
-  int in_sequence = 0;
+  bool in_sequence = 0;
   Counts counts = counts_new();
 
   while (cur = buffer[i]) {
@@ -76,6 +77,10 @@ Counts count_blanks(char buffer[]) {
     }
     // longest sequence of blanks
     if (blank_sequence(prev, cur)) {
+      if (!in_sequence) {
+        in_sequence = true;
+        ++counts.total_sequences;
+      }
       ++longest_sequence;
       // total spaces in longest sequence
       if (space(cur)) {
@@ -92,6 +97,7 @@ Counts count_blanks(char buffer[]) {
         counts.total_tabs_in_longest_sequence = longest_tabs;
       }
     } else {
+      in_sequence = false;
       longest_sequence = 0;
       longest_spaces = 0;
       longest_tabs = 0;

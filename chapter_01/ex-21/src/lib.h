@@ -1,11 +1,12 @@
+#include <stdbool.h>
 
 int read_line(char buffer[], int size);
 int str_len(char buffer[]);
 
-int space(char c);
-int tab(char c);
-int blank(char c);
-int blank_sequence(char prev, char cur);
+bool space(char c);
+bool tab(char c);
+bool blank(char c);
+bool blank_sequence(char prev, char cur);
 
 typedef struct {
   int total_spaces;

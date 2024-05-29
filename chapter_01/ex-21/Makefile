@@ -1,3 +1,7 @@
+default:
+	gcc ./src/lib.c ./src/main.c -o ./bin/app;
+	gcc ./src/lib.c ./src/test.c -lcriterion -o ./bin/test;
+
 build-app:
 	gcc ./src/lib.c ./src/main.c -o ./bin/app;
 

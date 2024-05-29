@@ -83,7 +83,7 @@ Test(blank_sequence, no) {
 }
 
 // ####################
-// blank_sequence
+// counts_new
 // ####################
 Test(counts_new, yes) {
   Counts c = counts_new();
@@ -101,36 +101,36 @@ Test(counts_new, yes) {
 // ####################
 Test(count_blanks, _1) {
   char str[] = "a string \t";
-  int counts[] = {0,0,0,0,0};
+  Counts counts = count_blanks(str);
 
-  count_blanks(str, counts);
-  cr_assert_eq(counts[0], 2);
-  cr_assert_eq(counts[1], 1);
-  cr_assert_eq(counts[2], 2);
-  cr_assert_eq(counts[3], 1);
-  cr_assert_eq(counts[4], 1);
+  cr_assert_eq(counts.total_spaces, 2);
+  cr_assert_eq(counts.total_tabs, 1);
+  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.longest_sequence, 2);
+  cr_assert_eq(counts.total_spaces_in_longest_sequence, 1);
+  cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);
 }
 
 Test(count_blanks, _2) {
   char str[] = "a string \t\t a";
-  int counts[] = {0,0,0,0,0};
+  Counts counts = count_blanks(str);
 
-  count_blanks(str, counts);
-  cr_assert_eq(counts[0], 3);
-  cr_assert_eq(counts[1], 2);
-  cr_assert_eq(counts[2], 4);
-  cr_assert_eq(counts[3], 2);
-  cr_assert_eq(counts[4], 2);
+  cr_assert_eq(counts.total_spaces, 3);
+  cr_assert_eq(counts.total_tabs, 2);
+  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.longest_sequence, 4);
+  cr_assert_eq(counts.total_spaces_in_longest_sequence, 2);
+  cr_assert_eq(counts.total_tabs_in_longest_sequence, 2);
 }
 
 Test(count_blanks, _3) {
   char str[] = "\t     xxx  \t\t xx \t x";
-  int counts[] = {0,0,0,0,0};
+  Counts counts = count_blanks(str);
 
-  count_blanks(str, counts);
-  cr_assert_eq(counts[0], 10);
-  cr_assert_eq(counts[1], 4);
-  cr_assert_eq(counts[2], 6);
-  cr_assert_eq(counts[3], 5);
-  cr_assert_eq(counts[4], 1);
+  cr_assert_eq(counts.total_spaces, 10);
+  cr_assert_eq(counts.total_tabs, 4);
+  cr_assert_eq(counts.total_sequences, 0);
+  cr_assert_eq(counts.longest_sequence, 6);
+  cr_assert_eq(counts.total_spaces_in_longest_sequence, 5);
+  cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);
 }

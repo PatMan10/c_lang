@@ -49,18 +49,30 @@ Counts counts_new() {
   return c;
 }
 
+void counts_print(Counts counts) {
+  printf("total spaces = %d\n", counts.total_spaces);
+  printf("total tabs = %d\n", counts.total_tabs);
+  printf("total sequences = %d\n", counts.total_sequences);
+  printf("longest sequence = %d\n", counts.longest_sequence);
+  printf("total spaces in longest sequence = %d\n", counts.total_spaces_in_longest_sequence);
+  printf("total tabs in longest sequence = %d\n", counts.total_tabs_in_longest_sequence);
+}
 
-void count_blanks(char buffer[], int counts[5]) {
+
+Counts count_blanks(char buffer[]) {
   int i = 0, prev, cur;
   int longest_sequence = 0, longest_spaces = 0, longest_tabs = 0;
+  int in_sequence = 0;
+  Counts counts = counts_new();
+
   while (cur = buffer[i]) {
     // total spaces
     if (space(cur)) {
-      ++counts[0];
+      ++counts.total_spaces;
     }
     // total tabs
     if (tab(cur)) {
-      ++counts[1];
+      ++counts.total_tabs;
     }
     // longest sequence of blanks
     if (blank_sequence(prev, cur)) {
@@ -74,10 +86,10 @@ void count_blanks(char buffer[], int counts[5]) {
         ++longest_tabs;
       }
 
-      if (longest_sequence > counts[2]) {
-        counts[2] = longest_sequence;
-        counts[3] = longest_spaces;
-        counts[4] = longest_tabs;
+      if (longest_sequence > counts.longest_sequence) {
+        counts.longest_sequence = longest_sequence;
+        counts.total_spaces_in_longest_sequence = longest_spaces;
+        counts.total_tabs_in_longest_sequence = longest_tabs;
       }
     } else {
       longest_sequence = 0;
@@ -87,6 +99,7 @@ void count_blanks(char buffer[], int counts[5]) {
     ++i;
     prev = cur;
   }
+  return counts;
 }
 
 int calculate_blank_stop(int counts[3], int n_spaces) {

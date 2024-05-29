@@ -17,5 +17,6 @@ typedef struct {
 } Counts;
 
 Counts counts_new();
+void counts_print(Counts counts);
 
-void count_blanks(char buffer[], int counts[5]);
+Counts count_blanks(char buffer[]);

@@ -1,4 +1,7 @@
+#include <stdbool.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
@@ -93,6 +96,22 @@ Test(counts_new, yes) {
   cr_assert_eq(c.longest_sequence, 0);
   cr_assert_eq(c.total_spaces_in_longest_sequence, 0);
   cr_assert_eq(c.total_tabs_in_longest_sequence, 0);
+}
+
+// ####################
+// counts_new
+// ####################
+Test(counts_to_str, yes) {
+  Counts c = counts_new();
+  c.total_spaces = 100;
+  c.total_tabs = 10;
+  c.total_spaces_in_longest_sequence = 25;
+
+  char* result = counts_to_str(c);
+  char* expected = "total spaces = 100\ntotal tabs = 10\ntotal sequences = 0\nlongest sequence = 0\ntotal spaces in longest sequence = 25\ntotal tabs in longest sequence = 0\n";
+  cr_assert_eq(strcmp(result, expected), 0);
+
+  free(result);
 }
 
 

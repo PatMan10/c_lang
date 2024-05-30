@@ -10,10 +10,15 @@
  */
 
 int main() {
-  int size = 100;
-  char buffer[size] = {};
+  Counts c = counts_new();
+  c.total_spaces = 5;
+  c.total_tabs = 10;
+  char* str = counts_to_str(c);
+  printf(str);
+  // int size = 100;
+  // char buffer[size] = {};
 
-  printf("%d\n", str_len("hello"));
+  // printf("%d\n", str_len("hello"));
 
   // int a = 0, spaces = 2;
   // while ((a = read_line(buffer, size)) != 0) {

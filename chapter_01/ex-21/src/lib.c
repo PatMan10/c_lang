@@ -1,4 +1,5 @@
 #include <stdbool.h>
+#include <stdlib.h>
 #include <stdio.h>
 
 #include "lib.h"
@@ -38,6 +39,7 @@ bool blank_sequence(char prev, char cur) {
   return one || two ? true : false;
 }
 
+
 Counts counts_new() {
   Counts c = {
     total_spaces: 0,
@@ -50,13 +52,13 @@ Counts counts_new() {
   return c;
 }
 
-void counts_print(Counts counts) {
-  printf("total spaces = %d\n", counts.total_spaces);
-  printf("total tabs = %d\n", counts.total_tabs);
-  printf("total sequences = %d\n", counts.total_sequences);
-  printf("longest sequence = %d\n", counts.longest_sequence);
-  printf("total spaces in longest sequence = %d\n", counts.total_spaces_in_longest_sequence);
-  printf("total tabs in longest sequence = %d\n", counts.total_tabs_in_longest_sequence);
+char* counts_to_str(Counts counts) {
+  char* buffer = malloc(sizeof(char) * 1024);
+  sprintf(
+    buffer,
+    "total spaces = %d\ntotal tabs = %d\ntotal sequences = %d\nlongest sequence = %d\ntotal spaces in longest sequence = %d\ntotal tabs in longest sequence = %d\n",
+    counts.total_spaces, counts.total_tabs, counts.total_sequences, counts.longest_sequence, counts.total_spaces_in_longest_sequence, counts.total_tabs_in_longest_sequence); 
+  return buffer;
 }
 
 

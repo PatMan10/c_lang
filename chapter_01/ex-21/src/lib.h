@@ -18,6 +18,6 @@ typedef struct {
 } Counts;
 
 Counts counts_new();
-void counts_print(Counts counts);
+char* counts_to_str(Counts counts);
 
 Counts count_blanks(char buffer[]);

@@ -23,21 +23,21 @@ int str_len(char buffer[]) {
 }
 
 bool space(char c) {
-  return c == ' ' ? true : false;
+  return c == ' ';
 }
 
 bool tab(char c) {
-  return c == '\t' ? true : false;
+  return c == '\t';
 }
 
 bool blank(char c) {
-  return space(c) || tab(c) ? true : false;
+  return space(c) || tab(c);
 }
 
 bool blank_sequence(char prev, char cur) {
   int one = !blank(prev) && blank(cur);
   int two = blank(prev) && blank(cur);
-  return one || two ? true : false;
+  return one || two;
 }
 
 
@@ -114,8 +114,4 @@ Counts count_blanks(char buffer[]) {
     prev = cur;
   }
   return counts;
-}
-
-int calculate_blank_stop(int counts[3], int n_spaces) {
-  return counts[1] + counts[2] * n_spaces;
 }

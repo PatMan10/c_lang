@@ -27,12 +27,12 @@ Test(str_len, pass) {
 // ####################
 Test(space, yes) {
   char c = ' ';
-  cr_assert_eq(space(c), 1);
+  cr_assert_eq(space(c), true);
 }
 
 Test(space, no) {
   char c = '\t';
-  cr_assert_eq(space(c), 0);
+  cr_assert_eq(space(c), false);
 }
 
 // ####################
@@ -40,12 +40,12 @@ Test(space, no) {
 // ####################
 Test(tab, yes) {
   char c = '\t';
-  cr_assert_eq(tab(c), 1);
+  cr_assert_eq(tab(c), true);
 }
 
 Test(tab, no) {
   char c = ' ';
-  cr_assert_eq(tab(c), 0);
+  cr_assert_eq(tab(c), false);
 }
 
 // ####################
@@ -53,18 +53,18 @@ Test(tab, no) {
 // ####################
 Test(blank, yes) {
   char c = ' ';
-  cr_assert_eq(blank(c), 1);
+  cr_assert_eq(blank(c), true);
 
   c = '\t';
-  cr_assert_eq(blank(c), 1);
+  cr_assert_eq(blank(c), true);
 }
 
 Test(blank, no) {
   char c = 'a';
-  cr_assert_eq(blank(c), 0);
+  cr_assert_eq(blank(c), false);
 
   c = 'z';
-  cr_assert_eq(blank(c), 0);
+  cr_assert_eq(blank(c), false);
 }
 
 // ####################
@@ -72,21 +72,21 @@ Test(blank, no) {
 // ####################
 Test(blank_sequence, yes) {
   char prev = 'a', cur = ' ';
-  cr_assert_eq(blank_sequence(prev, cur), 1);
+  cr_assert_eq(blank_sequence(prev, cur), true);
 
   prev = '\t', cur = ' ';
-  cr_assert_eq(blank_sequence(prev, cur), 1);
+  cr_assert_eq(blank_sequence(prev, cur), true);
 }
 
 Test(blank_sequence, no) {
   char prev, cur = 'a';
-  cr_assert_eq(blank_sequence(prev, cur), 0);
+  cr_assert_eq(blank_sequence(prev, cur), false);
 
   prev = ' ', cur = 'a';
-  cr_assert_eq(blank_sequence(prev, cur), 0);
+  cr_assert_eq(blank_sequence(prev, cur), false);
 
   prev = 'a', cur = 'b';
-  cr_assert_eq(blank_sequence(prev, cur), 0);
+  cr_assert_eq(blank_sequence(prev, cur), false);
 }
 
 // ####################

@@ -12,9 +12,9 @@ typedef struct {
   int total_spaces;
   int total_tabs;
   int total_sequences;
-  int longest_sequence;
-  int total_spaces_in_longest_sequence;
-  int total_tabs_in_longest_sequence;
+  int shortest_sequence;
+  int shortest_sequence_total_spaces;
+  int shortest_sequence_total_tabs;
 } Counts;
 
 Counts counts_new();

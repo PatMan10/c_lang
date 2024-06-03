@@ -1,9 +1,12 @@
 1 tab = 2 spaces
-input:  "\t  \s 'asd' \s    "
-output: "\s\s\s 'asd' \s\s\s"
 
-input:  "\t   \s 'xxx' \s\t\t 'xx' \t 'x'"
-output: "\s\s \s 'xxx' \s\s\s"
+shortest sequence of white space is a space
+input:  "\t  \s 'asd' \s    "
+output: "\s     'asd' \s    "
+
+shortest sequence of white space is a tab
+input:  "\t  \s 'xxx' \s\t\t 'xx' \t   'x'"
+output: "\s\s   'xxx' \s\s   'xx' \s\s 'x'"
 
 1. Get length of input.
 2. Count blanks.

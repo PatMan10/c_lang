@@ -1,6 +1,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <limits.h>
 
 #include "lib.h"
 
@@ -45,9 +46,9 @@ Counts counts_new() {
     total_spaces: 0,
     total_tabs: 0,
     total_sequences: 0,
-    longest_sequence: 0,
-    total_spaces_in_longest_sequence: 0,
-    total_tabs_in_longest_sequence: 0,
+    shortest_sequence: INT_MAX,
+    shortest_sequence_total_spaces: INT_MAX,
+    shortest_sequence_total_tabs: INT_MAX,
   };
   return c;
 }
@@ -56,16 +57,22 @@ char* counts_to_str(Counts counts) {
   char* buffer = malloc(sizeof(char) * 1024);
   sprintf(
     buffer,
-    "total spaces = %d\ntotal tabs = %d\ntotal sequences = %d\nlongest sequence = %d\ntotal spaces in longest sequence = %d\ntotal tabs in longest sequence = %d\n",
-    counts.total_spaces, counts.total_tabs, counts.total_sequences, counts.longest_sequence, counts.total_spaces_in_longest_sequence, counts.total_tabs_in_longest_sequence); 
+    "total spaces = %d\ntotal tabs = %d\ntotal sequences = %d\nshortest sequence = %d\ntotal spaces in shortest sequence = %d\ntotal tabs in shortest sequence = %d\n",
+    counts.total_spaces,
+    counts.total_tabs,
+    counts.total_sequences,
+    counts.shortest_sequence,
+    counts.shortest_sequence_total_spaces,
+    counts.shortest_sequence_total_tabs
+  ); 
   return buffer;
 }
 
 
 Counts count_blanks(char buffer[]) {
   int i = 0, prev, cur;
-  int longest_sequence = 0, longest_spaces = 0, longest_tabs = 0;
-  bool in_sequence = 0;
+  int shortest_sequence = 0, shortest_spaces = 0, shortest_tabs = 0;
+  bool in_sequence = false;
   Counts counts = counts_new();
 
   while (cur = buffer[i]) {
@@ -77,32 +84,31 @@ Counts count_blanks(char buffer[]) {
     if (tab(cur)) {
       ++counts.total_tabs;
     }
-    // longest sequence of blanks
+    // shortest sequence of blanks
     if (blank_sequence(prev, cur)) {
       if (!in_sequence) {
         in_sequence = true;
         ++counts.total_sequences;
       }
-      ++longest_sequence;
-      // total spaces in longest sequence
+      ++shortest_sequence;
+      // total spaces in shortest sequence
       if (space(cur)) {
-        ++longest_spaces;
+        ++shortest_spaces;
       }
-      // total tabs in longest sequence
+      // total tabs in shortest sequence
       if (tab(cur)) {
-        ++longest_tabs;
-      }
-
-      if (longest_sequence > counts.longest_sequence) {
-        counts.longest_sequence = longest_sequence;
-        counts.total_spaces_in_longest_sequence = longest_spaces;
-        counts.total_tabs_in_longest_sequence = longest_tabs;
+        ++shortest_tabs;
       }
     } else {
+      if (in_sequence && shortest_sequence < counts.shortest_sequence) {
+        counts.shortest_sequence = shortest_sequence;
+        counts.shortest_sequence_total_spaces = shortest_spaces;
+        counts.shortest_sequence_total_tabs = shortest_tabs;
+      }
       in_sequence = false;
-      longest_sequence = 0;
-      longest_spaces = 0;
-      longest_tabs = 0;
+      shortest_sequence = 0;
+      shortest_spaces = 0;
+      shortest_tabs = 0;
     }
     ++i;
     prev = cur;

@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <limits.h>
 #include <criterion/criterion.h>
 #include <criterion/redirect.h>
 
@@ -78,7 +79,10 @@ Test(blank_sequence, yes) {
 }
 
 Test(blank_sequence, no) {
-  char prev = ' ', cur = 'a';
+  char prev, cur = 'a';
+  cr_assert_eq(blank_sequence(prev, cur), 0);
+
+  prev = ' ', cur = 'a';
   cr_assert_eq(blank_sequence(prev, cur), 0);
 
   prev = 'a', cur = 'b';
@@ -93,9 +97,9 @@ Test(counts_new, yes) {
   cr_assert_eq(c.total_spaces, 0);
   cr_assert_eq(c.total_tabs, 0);
   cr_assert_eq(c.total_sequences, 0);
-  cr_assert_eq(c.longest_sequence, 0);
-  cr_assert_eq(c.total_spaces_in_longest_sequence, 0);
-  cr_assert_eq(c.total_tabs_in_longest_sequence, 0);
+  cr_assert_eq(c.shortest_sequence, INT_MAX);
+  cr_assert_eq(c.shortest_sequence_total_spaces, INT_MAX);
+  cr_assert_eq(c.shortest_sequence_total_tabs, INT_MAX);
 }
 
 // ####################
@@ -105,10 +109,12 @@ Test(counts_to_str, yes) {
   Counts c = counts_new();
   c.total_spaces = 100;
   c.total_tabs = 10;
-  c.total_spaces_in_longest_sequence = 25;
+  c.shortest_sequence = 0;
+  c.shortest_sequence_total_spaces = 25;
+  c.shortest_sequence_total_tabs = 0;
 
   char* result = counts_to_str(c);
-  char* expected = "total spaces = 100\ntotal tabs = 10\ntotal sequences = 0\nlongest sequence = 0\ntotal spaces in longest sequence = 25\ntotal tabs in longest sequence = 0\n";
+  char* expected = "total spaces = 100\ntotal tabs = 10\ntotal sequences = 0\nshortest sequence = 0\ntotal spaces in shortest sequence = 25\ntotal tabs in shortest sequence = 0\n";
   cr_assert_eq(strcmp(result, expected), 0);
 
   free(result);
@@ -125,21 +131,21 @@ Test(count_blanks, _1) {
   cr_assert_eq(counts.total_spaces, 2);
   cr_assert_eq(counts.total_tabs, 1);
   cr_assert_eq(counts.total_sequences, 2);
-  cr_assert_eq(counts.longest_sequence, 2);
-  cr_assert_eq(counts.total_spaces_in_longest_sequence, 1);
-  cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);
+  cr_assert_eq(counts.shortest_sequence, 1);
+  cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
+  cr_assert_eq(counts.shortest_sequence_total_tabs, 0);
 }
 
 Test(count_blanks, _2) {
-  char str[] = "a string \t\t a";
+  char str[] = "a\t string \t\t a";
   Counts counts = count_blanks(str);
 
   cr_assert_eq(counts.total_spaces, 3);
-  cr_assert_eq(counts.total_tabs, 2);
+  cr_assert_eq(counts.total_tabs, 3);
   cr_assert_eq(counts.total_sequences, 2);
-  cr_assert_eq(counts.longest_sequence, 4);
-  cr_assert_eq(counts.total_spaces_in_longest_sequence, 2);
-  cr_assert_eq(counts.total_tabs_in_longest_sequence, 2);
+  cr_assert_eq(counts.shortest_sequence, 2);
+  cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
+  cr_assert_eq(counts.shortest_sequence_total_tabs, 1);
 }
 
 Test(count_blanks, _3) {
@@ -149,7 +155,7 @@ Test(count_blanks, _3) {
   cr_assert_eq(counts.total_spaces, 10);
   cr_assert_eq(counts.total_tabs, 4);
   cr_assert_eq(counts.total_sequences, 3);
-  cr_assert_eq(counts.longest_sequence, 6);
-  cr_assert_eq(counts.total_spaces_in_longest_sequence, 5);
-  cr_assert_eq(counts.total_tabs_in_longest_sequence, 1);
+  cr_assert_eq(counts.shortest_sequence, 3);
+  cr_assert_eq(counts.shortest_sequence_total_spaces, 2);
+  cr_assert_eq(counts.shortest_sequence_total_tabs, 1);
 }

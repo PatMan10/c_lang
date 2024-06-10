@@ -20,8 +20,8 @@ int main() {
       printf("AAAAAAAAAA\n");
     ++i;
   }
-    if (c == '\0')
-      printf("AAAAAAAAAA\n");
+  if (c == '\0')
+    printf("AAAAAAAAAA\n");
   // Counts c = counts_new();
   // c.total_spaces = 5;
   // c.total_tabs = 10;

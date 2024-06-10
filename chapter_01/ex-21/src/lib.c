@@ -129,6 +129,9 @@ Counts count_blanks(char buffer[]) {
   return counts;
 }
 
-int get_blank_stop(Counts counts, int tabs) {
-  return counts.shortest_sequence_total_tabs * tabs + counts.shortest_sequence_total_spaces;
+int get_buffer_size(Counts counts, int spaces_per_tab) {
+  int char_count = counts.string_length - (counts.total_spaces + counts.total_tabs);
+  int blank_stop = (counts.shortest_sequence_total_tabs * spaces_per_tab) + counts.shortest_sequence_total_spaces;
+  int buffer_size = char_count + (counts.total_sequences * blank_stop);
+  return buffer_size;
 }

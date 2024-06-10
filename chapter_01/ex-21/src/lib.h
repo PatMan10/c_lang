@@ -23,4 +23,4 @@ char* counts_to_str(Counts counts);
 
 Counts count_blanks(char buffer[]);
 
-int get_blank_stop(Counts counts, int tabs);
+int get_buffer_size(Counts counts, int spaces_per_tab);

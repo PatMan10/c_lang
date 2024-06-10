@@ -103,7 +103,7 @@ Test(counts_new, yes) {
 }
 
 // ####################
-// counts_new
+// counts_to_str
 // ####################
 Test(counts_to_str, yes) {
   Counts c = counts_new();
@@ -158,4 +158,43 @@ Test(count_blanks, _3) {
   cr_assert_eq(counts.shortest_sequence, 3);
   cr_assert_eq(counts.shortest_sequence_total_spaces, 2);
   cr_assert_eq(counts.shortest_sequence_total_tabs, 1);
+}
+
+Test(count_blanks, _4) {
+  char str[] = "a     string \t\t";
+  Counts counts = count_blanks(str);
+
+  cr_assert_eq(counts.total_spaces, 6);
+  cr_assert_eq(counts.total_tabs, 2);
+  cr_assert_eq(counts.total_sequences, 2);
+  cr_assert_eq(counts.shortest_sequence, 3);
+  cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
+  cr_assert_eq(counts.shortest_sequence_total_tabs, 2);
+}
+
+// ####################
+// get_blank_stop
+// ####################
+Test(get_blank_stop, _1) {
+  char str[] = "a string \t";
+  Counts counts = count_blanks(str);
+  int blank_stop = get_blank_stop(counts, 2);
+
+  cr_assert_eq(blank_stop, 1);
+}
+
+Test(get_blank_stop, _2) {
+  char str[] = "a   string \t";
+  Counts counts = count_blanks(str);
+  int blank_stop = get_blank_stop(counts, 2);
+
+  cr_assert_eq(blank_stop, 3);
+}
+
+Test(get_blank_stop, _3) {
+  char str[] = "a     string \t\t";
+  Counts counts = count_blanks(str);
+  int blank_stop = get_blank_stop(counts, 4);
+
+  cr_assert_eq(blank_stop, 9);
 }

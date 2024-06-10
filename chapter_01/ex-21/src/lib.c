@@ -113,5 +113,20 @@ Counts count_blanks(char buffer[]) {
     ++i;
     prev = cur;
   }
+
+  if (in_sequence && shortest_sequence < counts.shortest_sequence) {
+    counts.shortest_sequence = shortest_sequence;
+    counts.shortest_sequence_total_spaces = shortest_spaces;
+    counts.shortest_sequence_total_tabs = shortest_tabs;
+  }
+  in_sequence = false;
+  shortest_sequence = 0;
+  shortest_spaces = 0;
+  shortest_tabs = 0;
+
   return counts;
+}
+
+int get_blank_stop(Counts counts, int tabs) {
+  return counts.shortest_sequence_total_tabs * tabs + counts.shortest_sequence_total_spaces;
 }

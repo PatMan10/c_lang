@@ -9,6 +9,7 @@ bool blank(char c);
 bool blank_sequence(char prev, char cur);
 
 typedef struct {
+  int string_length;
   int total_spaces;
   int total_tabs;
   int total_sequences;

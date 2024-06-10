@@ -1,4 +1,5 @@
 default:
+	rm -f ./bin/*;
 	gcc ./src/lib.c ./src/main.c -o ./bin/app;
 	gcc ./src/lib.c ./src/test.c -lcriterion -o ./bin/test;
 
@@ -9,4 +10,4 @@ build-test:
 	gcc ./src/lib.c ./src/test.c -lcriterion -o ./bin/test;
 
 clean:
-	rm ./bin/*;
+	rm -f ./bin/*;

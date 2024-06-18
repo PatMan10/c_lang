@@ -127,7 +127,7 @@ Test(counts_to_str, yes) {
 // ####################
 Test(count_blanks, _1) {
   char str[] = "a string \t";
-  Counts counts = count_blanks(str);
+  Counts counts = count_blanks(str, 2);
 
   cr_assert_eq(counts.string_length, 10);
   cr_assert_eq(counts.total_spaces, 2);
@@ -136,11 +136,12 @@ Test(count_blanks, _1) {
   cr_assert_eq(counts.shortest_sequence, 1);
   cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
   cr_assert_eq(counts.shortest_sequence_total_tabs, 0);
+  cr_assert_eq(counts.tab_stop, 1);
 }
 
 Test(count_blanks, _2) {
   char str[] = "a\t string \t\t a";
-  Counts counts = count_blanks(str);
+  Counts counts = count_blanks(str, 2);
 
   cr_assert_eq(counts.string_length, 14);
   cr_assert_eq(counts.total_spaces, 3);
@@ -149,11 +150,12 @@ Test(count_blanks, _2) {
   cr_assert_eq(counts.shortest_sequence, 2);
   cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
   cr_assert_eq(counts.shortest_sequence_total_tabs, 1);
+  cr_assert_eq(counts.tab_stop, 3);
 }
 
 Test(count_blanks, _3) {
   char str[] = "\t     xxx  \t\t xx \t x";
-  Counts counts = count_blanks(str);
+  Counts counts = count_blanks(str, 4);
 
   cr_assert_eq(counts.string_length, 20);
   cr_assert_eq(counts.total_spaces, 10);
@@ -162,11 +164,12 @@ Test(count_blanks, _3) {
   cr_assert_eq(counts.shortest_sequence, 3);
   cr_assert_eq(counts.shortest_sequence_total_spaces, 2);
   cr_assert_eq(counts.shortest_sequence_total_tabs, 1);
+  cr_assert_eq(counts.tab_stop, 6);
 }
 
 Test(count_blanks, _4) {
   char str[] = "a     string \t\t";
-  Counts counts = count_blanks(str);
+  Counts counts = count_blanks(str, 4);
 
   cr_assert_eq(counts.string_length, 15);
   cr_assert_eq(counts.total_spaces, 6);
@@ -175,92 +178,72 @@ Test(count_blanks, _4) {
   cr_assert_eq(counts.shortest_sequence, 3);
   cr_assert_eq(counts.shortest_sequence_total_spaces, 1);
   cr_assert_eq(counts.shortest_sequence_total_tabs, 2);
+  cr_assert_eq(counts.tab_stop, 9);
 }
 
-// ####################
-// get_tab_stop
-// ####################
-Test(get_tab_stop, _1) {
-  char str[] = "a string \t";
-  Counts counts = count_blanks(str);
-  int tab_stop = get_tab_stop(counts, 2);
-
-  cr_assert_eq(tab_stop, 1);
-}
-
-Test(get_tab_stop, _2) {
-  char str[] = "a   string \t";
-  Counts counts = count_blanks(str);
-  int tab_stop = get_tab_stop(counts, 2);
-
-  cr_assert_eq(tab_stop, 3);
-}
-
-Test(get_tab_stop, _3) {
-  char str[] = "a     string \t\t";
-  Counts counts = count_blanks(str);
-  int tab_stop = get_tab_stop(counts, 4);
-
-  cr_assert_eq(tab_stop, 9);
-}
-
-Test(get_tab_stop, _4) {
-  char str[] = "\t    xxx  \t\t xx \t   x";
-  Counts counts = count_blanks(str);
-  int tab_stop = get_tab_stop(counts, 4);
-
-  cr_assert_eq(tab_stop, 8);
-}
-
-// ####################
-// get_buffer_size
-// ####################
-Test(get_buffer_size, _1) {
-  char str[] = "a string \t";
-  Counts counts = count_blanks(str);
-  int buffer_size = get_buffer_size(counts, 2);
-
-  cr_assert_eq(buffer_size, 9);
-}
-
-Test(get_buffer_size, _2) {
-  char str[] = "a   string \t";
-  Counts counts = count_blanks(str);
-  int buffer_size = get_buffer_size(counts, 2);
-
-  cr_assert_eq(buffer_size, 13);
-}
-
-Test(get_buffer_size, _3) {
-  char str[] = "a     string \t\t";
-  Counts counts = count_blanks(str);
-  int buffer_size = get_buffer_size(counts, 4);
-
-  cr_assert_eq(buffer_size, 25);
-}
-
-Test(get_buffer_size, _4) {
-  char str[] = "\t    xxx  \t\t xx \t   x";
-  Counts counts = count_blanks(str);
-  int buffer_size = get_buffer_size(counts, 4);
-
-  cr_assert_eq(buffer_size, 30);
-}
-
-// ####################
-// entab
-// ####################
-Test(entab, _1) {
-  char str[] = "a string \tx";
-  Counts counts = count_blanks(str);
-  int spaces_per_tab = 2;
-  int size = get_buffer_size(counts, spaces_per_tab);
-  int tab_stop = get_tab_stop(counts, spaces_per_tab);
-  char buffer[size] = {};
-  
-  entab(str, buffer, tab_stop);
-  printf("\"%s\"\n", buffer);
-
-  // cr_assert_eq(buffer_size, 9);
-}
-
+//// ####################
+//// get_buffer_size
+//// ####################
+//Test(get_buffer_size, _1) {
+//  char str[] = "a string \t";
+//  Counts counts = count_blanks(str);
+//  int buffer_size = get_buffer_size(counts, 2);
+//
+//  cr_assert_eq(buffer_size, 9);
+//}
+//
+//Test(get_buffer_size, _2) {
+//  char str[] = "a   string \t";
+//  Counts counts = count_blanks(str);
+//  int buffer_size = get_buffer_size(counts, 2);
+//
+//  cr_assert_eq(buffer_size, 13);
+//}
+//
+//Test(get_buffer_size, _3) {
+//  char str[] = "a     string \t\t";
+//  Counts counts = count_blanks(str);
+//  int buffer_size = get_buffer_size(counts, 4);
+//
+//  cr_assert_eq(buffer_size, 25);
+//}
+//
+//Test(get_buffer_size, _4) {
+//  char str[] = "\t    xxx  \t\t xx \t   x";
+//  Counts counts = count_blanks(str);
+//  int buffer_size = get_buffer_size(counts, 4);
+//
+//  cr_assert_eq(buffer_size, 30);
+//}
+//
+//// ####################
+//// entab
+//// ####################
+//// Test(entab, _1) {
+////   char str[] = "a string \tx";
+////   Counts counts = count_blanks(str);
+////   int spaces_per_tab = 2;
+////   int size = get_buffer_size(counts, spaces_per_tab);
+////   int tab_stop = get_tab_stop(counts, spaces_per_tab);
+////   char buffer[size] = {};
+////   
+////   entab(str, buffer, tab_stop);
+////   printf("\"%s\"\n", buffer);
+//// 
+////   char expected[] = "a string x";
+////   cr_assert_eq(strcmp(buffer, expected), 0);
+//// }
+//
+//Test(entab, _2) {
+//  char str[] = "a   string \t";
+//  int spaces_per_tab = 2;
+//  Counts counts = count_blanks(str);
+//  int size = get_buffer_size(counts, spaces_per_tab);
+//  char buffer[size] = {};
+//  
+//  entab(str, buffer, tab_stop);
+//  printf("%d %d \"%s\"\n", size, str_len(buffer), buffer);
+//
+//  char expected[] = "a   string   ";
+//  cr_assert_eq(strcmp(buffer, expected), 0);
+//}

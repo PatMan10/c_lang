@@ -50,6 +50,7 @@ Counts counts_new() {
     shortest_sequence: INT_MAX,
     shortest_sequence_total_spaces: INT_MAX,
     shortest_sequence_total_tabs: INT_MAX,
+    tab_stop: 0,
   };
   return c;
 }
@@ -71,7 +72,7 @@ char* counts_to_str(Counts counts) {
 }
 
 
-Counts count_blanks(char buffer[]) {
+Counts count_blanks(char buffer[], int spaces_per_tab) {
   int i = 0, prev, cur;
   int shortest_sequence = 0, shortest_spaces = 0, shortest_tabs = 0;
   bool in_sequence = false;
@@ -125,12 +126,9 @@ Counts count_blanks(char buffer[]) {
   shortest_sequence = 0;
   shortest_spaces = 0;
   shortest_tabs = 0;
+  counts.tab_stop = counts.shortest_sequence_total_tabs * spaces_per_tab + counts.shortest_sequence_total_spaces;
 
   return counts;
-}
-
-int get_tab_stop(Counts counts, int spaces_per_tab) {
-  return counts.shortest_sequence_total_tabs * spaces_per_tab + counts.shortest_sequence_total_spaces;
 }
 
 int get_buffer_size(Counts counts, int spaces_per_tab) {
@@ -140,35 +138,30 @@ int get_buffer_size(Counts counts, int spaces_per_tab) {
   return buffer_size;
 }
 
-void entab(char from[], char to[], int tab_stop) {
+void entab(char from[], char to[], Counts counts) {
   int f_idx = 0, t_idx = 0;
   int cur, prev;
 
-  int s_len = str_len(from);
+  int s_len = counts.string_length;
 
-  while(cur = from[f_idx]) {
-    // if (f_idx < s_len - 1 && !blank(cur))
-    //   printf("%c", cur);
-    // else
-    //   printf("%c", cur);
-    if (!blank(cur))
-      printf("%c", cur);
-
+  while(f_idx < counts.string_length && (cur = from[f_idx])) {
     if (blank_sequence(prev, cur)) {
       printf("'%c' in blank sequence\n", cur);
-      for (int a = 1; a <= tab_stop; a++) {
+      for (int a = 1; a <= counts.tab_stop; a++) {
         to[t_idx] = ' ';
         ++t_idx;
       }
-      while(blank(from[f_idx])) {
+      while(blank(cur = from[f_idx])) {
+        printf("'%c'", cur);
         ++f_idx;
         prev = cur;
       }
+      printf("\n continue\n");
       continue;
     }
 
     if (!blank(cur)) {
-      printf(" char\n");
+      printf("%c char\n", cur);
       to[t_idx] = cur;
     }
     ++f_idx;

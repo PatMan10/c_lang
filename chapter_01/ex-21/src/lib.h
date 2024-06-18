@@ -16,14 +16,14 @@ typedef struct {
   int shortest_sequence;
   int shortest_sequence_total_spaces;
   int shortest_sequence_total_tabs;
+  int tab_stop;
 } Counts;
 
 Counts counts_new();
 char* counts_to_str(Counts counts);
 
-Counts count_blanks(char buffer[]);
+Counts count_blanks(char buffer[], int spaces_per_tab);
 
-int get_tab_stop(Counts counts, int spaces_per_tab);
 int get_buffer_size(Counts counts, int spaces_per_tab);
 
-void entab(char from[], char to[], int tab_stop);
+void entab(char from[], char to[], Counts counts);

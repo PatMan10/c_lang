@@ -178,7 +178,42 @@ Test(count_blanks, _4) {
 }
 
 // ####################
-// get_new_buffer_size
+// get_tab_stop
+// ####################
+Test(get_tab_stop, _1) {
+  char str[] = "a string \t";
+  Counts counts = count_blanks(str);
+  int tab_stop = get_tab_stop(counts, 2);
+
+  cr_assert_eq(tab_stop, 1);
+}
+
+Test(get_tab_stop, _2) {
+  char str[] = "a   string \t";
+  Counts counts = count_blanks(str);
+  int tab_stop = get_tab_stop(counts, 2);
+
+  cr_assert_eq(tab_stop, 3);
+}
+
+Test(get_tab_stop, _3) {
+  char str[] = "a     string \t\t";
+  Counts counts = count_blanks(str);
+  int tab_stop = get_tab_stop(counts, 4);
+
+  cr_assert_eq(tab_stop, 9);
+}
+
+Test(get_tab_stop, _4) {
+  char str[] = "\t    xxx  \t\t xx \t   x";
+  Counts counts = count_blanks(str);
+  int tab_stop = get_tab_stop(counts, 4);
+
+  cr_assert_eq(tab_stop, 8);
+}
+
+// ####################
+// get_buffer_size
 // ####################
 Test(get_buffer_size, _1) {
   char str[] = "a string \t";

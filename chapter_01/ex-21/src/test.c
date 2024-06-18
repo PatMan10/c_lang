@@ -246,3 +246,21 @@ Test(get_buffer_size, _4) {
 
   cr_assert_eq(buffer_size, 30);
 }
+
+// ####################
+// entab
+// ####################
+Test(entab, _1) {
+  char str[] = "a string \tx";
+  Counts counts = count_blanks(str);
+  int spaces_per_tab = 2;
+  int size = get_buffer_size(counts, spaces_per_tab);
+  int tab_stop = get_tab_stop(counts, spaces_per_tab);
+  char buffer[size] = {};
+  
+  entab(str, buffer, tab_stop);
+  printf("\"%s\"\n", buffer);
+
+  // cr_assert_eq(buffer_size, 9);
+}
+

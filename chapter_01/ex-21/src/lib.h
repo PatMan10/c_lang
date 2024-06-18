@@ -25,3 +25,5 @@ Counts count_blanks(char buffer[]);
 
 int get_tab_stop(Counts counts, int spaces_per_tab);
 int get_buffer_size(Counts counts, int spaces_per_tab);
+
+void entab(char from[], char to[], int tab_stop);

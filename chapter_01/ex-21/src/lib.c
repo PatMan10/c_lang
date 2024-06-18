@@ -139,3 +139,42 @@ int get_buffer_size(Counts counts, int spaces_per_tab) {
   int buffer_size = char_count + (counts.total_sequences * blank_stop);
   return buffer_size;
 }
+
+void entab(char from[], char to[], int tab_stop) {
+  int f_idx = 0, t_idx = 0;
+  int cur, prev;
+  bool tab_stop_inserted = false;
+
+  int s_len = str_len(from);
+
+  while(cur = from[f_idx]) {
+    // if (f_idx < s_len - 1 && !blank(cur))
+    //   printf("%c", cur);
+    // else
+    //   printf("%c", cur);
+    if (!blank(cur))
+      printf("%c", cur);
+
+    if (blank_sequence(prev, cur) && !tab_stop_inserted) {
+      printf("'%c' in blank sequence\n", cur);
+      for (int a = 1; a <= tab_stop; a++) {
+        to[t_idx] = ' ';
+        ++t_idx;
+      }
+      tab_stop_inserted = true;
+      ++f_idx;
+      prev = cur;
+      continue;
+    }
+
+    if (!blank(cur)) {
+      printf(" char\n");
+      to[t_idx] = cur;
+      tab_stop_inserted = false;
+    }
+    ++f_idx;
+    ++t_idx;
+    prev = cur;
+  }
+  printf("f_idx = %d\nt_idx = %d\n", f_idx, t_idx);
+}

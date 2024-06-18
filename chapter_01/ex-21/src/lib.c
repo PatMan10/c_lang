@@ -41,8 +41,9 @@ bool blank_sequence(char prev, char cur) {
 }
 
 
-Counts counts_new() {
+Counts counts_new(int spaces_per_tab) {
   Counts c = {
+    spaces_per_tab: spaces_per_tab,
     string_length: 0,
     total_spaces: 0,
     total_tabs: 0,
@@ -59,14 +60,16 @@ char* counts_to_str(Counts counts) {
   char* buffer = malloc(sizeof(char) * 1024);
   sprintf(
     buffer,
-    "string length = %d\ntotal spaces = %d\ntotal tabs = %d\ntotal sequences = %d\nshortest sequence = %d\ntotal spaces in shortest sequence = %d\ntotal tabs in shortest sequence = %d\n",
+    "spaces per tab = %d\nstring length = %d\ntotal spaces = %d\ntotal tabs = %d\ntotal sequences = %d\nshortest sequence = %d\ntotal spaces in shortest sequence = %d\ntotal tabs in shortest sequence = %d\ntab stop = %d\n",
+    counts.spaces_per_tab,
     counts.string_length,
     counts.total_spaces,
     counts.total_tabs,
     counts.total_sequences,
     counts.shortest_sequence,
     counts.shortest_sequence_total_spaces,
-    counts.shortest_sequence_total_tabs
+    counts.shortest_sequence_total_tabs,
+    counts.tab_stop
   ); 
   return buffer;
 }
@@ -76,7 +79,7 @@ Counts count_blanks(char buffer[], int spaces_per_tab) {
   int i = 0, prev, cur;
   int shortest_sequence = 0, shortest_spaces = 0, shortest_tabs = 0;
   bool in_sequence = false;
-  Counts counts = counts_new();
+  Counts counts = counts_new(spaces_per_tab);
 
   while (cur = buffer[i]) {
     // total spaces

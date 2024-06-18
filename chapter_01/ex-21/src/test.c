@@ -93,20 +93,22 @@ Test(blank_sequence, no) {
 // counts_new
 // ####################
 Test(counts_new, yes) {
-  Counts c = counts_new();
+  Counts c = counts_new(2);
+  cr_assert_eq(c.spaces_per_tab, 2);
   cr_assert_eq(c.total_spaces, 0);
   cr_assert_eq(c.total_tabs, 0);
   cr_assert_eq(c.total_sequences, 0);
   cr_assert_eq(c.shortest_sequence, INT_MAX);
   cr_assert_eq(c.shortest_sequence_total_spaces, INT_MAX);
   cr_assert_eq(c.shortest_sequence_total_tabs, INT_MAX);
+  cr_assert_eq(c.tab_stop, 0);
 }
 
 // ####################
 // counts_to_str
 // ####################
 Test(counts_to_str, yes) {
-  Counts c = counts_new();
+  Counts c = counts_new(2);
   c.string_length = 99;
   c.total_spaces = 100;
   c.total_tabs = 10;
@@ -115,7 +117,7 @@ Test(counts_to_str, yes) {
   c.shortest_sequence_total_tabs = 0;
 
   char* result = counts_to_str(c);
-  char* expected = "string length = 99\ntotal spaces = 100\ntotal tabs = 10\ntotal sequences = 0\nshortest sequence = 0\ntotal spaces in shortest sequence = 25\ntotal tabs in shortest sequence = 0\n";
+  char* expected = "spaces per tab = 2\nstring length = 99\ntotal spaces = 100\ntotal tabs = 10\ntotal sequences = 0\nshortest sequence = 0\ntotal spaces in shortest sequence = 25\ntotal tabs in shortest sequence = 0\ntab stop = 0\n";
   cr_assert_eq(strcmp(result, expected), 0);
 
   free(result);
@@ -129,6 +131,7 @@ Test(count_blanks, _1) {
   char str[] = "a string \t";
   Counts counts = count_blanks(str, 2);
 
+  cr_assert_eq(counts.spaces_per_tab, 2);
   cr_assert_eq(counts.string_length, 10);
   cr_assert_eq(counts.total_spaces, 2);
   cr_assert_eq(counts.total_tabs, 1);
@@ -143,6 +146,7 @@ Test(count_blanks, _2) {
   char str[] = "a\t string \t\t a";
   Counts counts = count_blanks(str, 2);
 
+  cr_assert_eq(counts.spaces_per_tab, 2);
   cr_assert_eq(counts.string_length, 14);
   cr_assert_eq(counts.total_spaces, 3);
   cr_assert_eq(counts.total_tabs, 3);
@@ -157,6 +161,7 @@ Test(count_blanks, _3) {
   char str[] = "\t     xxx  \t\t xx \t x";
   Counts counts = count_blanks(str, 4);
 
+  cr_assert_eq(counts.spaces_per_tab, 4);
   cr_assert_eq(counts.string_length, 20);
   cr_assert_eq(counts.total_spaces, 10);
   cr_assert_eq(counts.total_tabs, 4);
@@ -171,6 +176,7 @@ Test(count_blanks, _4) {
   char str[] = "a     string \t\t";
   Counts counts = count_blanks(str, 4);
 
+  cr_assert_eq(counts.spaces_per_tab, 4);
   cr_assert_eq(counts.string_length, 15);
   cr_assert_eq(counts.total_spaces, 6);
   cr_assert_eq(counts.total_tabs, 2);

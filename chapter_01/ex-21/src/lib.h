@@ -9,6 +9,7 @@ bool blank(char c);
 bool blank_sequence(char prev, char cur);
 
 typedef struct {
+  int spaces_per_tab;
   int string_length;
   int total_spaces;
   int total_tabs;
@@ -19,7 +20,7 @@ typedef struct {
   int tab_stop;
 } Counts;
 
-Counts counts_new();
+Counts counts_new(int spaces_per_tab);
 char* counts_to_str(Counts counts);
 
 Counts count_blanks(char buffer[], int spaces_per_tab);

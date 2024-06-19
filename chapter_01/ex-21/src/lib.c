@@ -138,38 +138,40 @@ int get_buffer_size(Counts counts) {
   int char_count = counts.string_length - (counts.total_spaces + counts.total_tabs);
   int blank_stop = (counts.shortest_sequence_total_tabs * counts.spaces_per_tab) + counts.shortest_sequence_total_spaces;
   int buffer_size = char_count + (counts.total_sequences * blank_stop);
-  return buffer_size;
+  return buffer_size + 1;
 }
 
 void entab(char from[], char to[], Counts counts) {
   int f_idx = 0, t_idx = 0;
   int cur, prev;
 
+  // printf("%s\n", counts_to_str(counts));
   int s_len = counts.string_length;
 
-  while(f_idx < counts.string_length && (cur = from[f_idx])) {
+  while((cur = from[f_idx])) {
     if (blank_sequence(prev, cur)) {
-      printf("'%c' in blank sequence\n", cur);
+      // printf("'%c' in blank sequence\n", cur);
       for (int a = 1; a <= counts.tab_stop; a++) {
         to[t_idx] = ' ';
         ++t_idx;
       }
       while(blank(cur = from[f_idx])) {
-        printf("'%c'", cur);
+        // printf("'%c'", cur);
         ++f_idx;
         prev = cur;
       }
-      printf("\n continue\n");
+      // printf("\n %d continue\n", f_idx);
       continue;
     }
 
     if (!blank(cur)) {
-      printf("%c char\n", cur);
+      // printf("%c char\n", cur);
       to[t_idx] = cur;
     }
     ++f_idx;
     ++t_idx;
     prev = cur;
   }
-  printf("f_idx = %d\nt_idx = %d\n", f_idx, t_idx);
+  to[t_idx] = '\0';
+  // printf("f_idx = %d\nt_idx = %d\n", f_idx, t_idx);
 }

@@ -10,35 +10,13 @@
  */
 
 int main() {
-  char str[] = "some string";
-  char c;
-  int i = 0;
-  while (c = str[i]) {
-    if (c)
-      printf("%c\n", c);
-    if (c == '\0')
-      printf("AAAAAAAAAA\n");
-    ++i;
-  }
-  if (c == '\0')
-    printf("AAAAAAAAAA\n");
-  // Counts c = counts_new();
-  // c.total_spaces = 5;
-  // c.total_tabs = 10;
-  // char* str = counts_to_str(c);
-  printf(str);
-  // int size = 100;
-  // char buffer[size] = {};
-
-  // printf("%d\n", str_len("hello"));
-
-  // int a = 0, spaces = 2;
-  // while ((a = read_line(buffer, size)) != 0) {
-  //   int spaced_size = spaces * count_tabs(buffer) + str_len(buffer);
-  //   char spaced_buffer[spaced_size] = {};
-
-  //   printf("'%s'\n", spaced_buffer);
-  // }
+  char str[] = "a   str   ing \tx  s  asd  s";
+  Counts counts = count_blanks(str, 3);
+  int size = get_buffer_size(counts);
+  char buffer[size] = {};
   
+  entab(str, buffer, counts);  
+  printf("before: %s\nafter: %s\n", str, buffer);
+
   return 0;
 }

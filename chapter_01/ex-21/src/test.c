@@ -195,7 +195,7 @@ Test(get_buffer_size, _1) {
   Counts counts = count_blanks(str, 2);
   int buffer_size = get_buffer_size(counts);
 
-  cr_assert_eq(buffer_size, 9);
+  cr_assert_eq(buffer_size, 10);
 }
 
 Test(get_buffer_size, _2) {
@@ -203,7 +203,7 @@ Test(get_buffer_size, _2) {
   Counts counts = count_blanks(str, 2);
   int buffer_size = get_buffer_size(counts);
 
-  cr_assert_eq(buffer_size, 13);
+  cr_assert_eq(buffer_size, 14);
 }
 
 Test(get_buffer_size, _3) {
@@ -211,7 +211,7 @@ Test(get_buffer_size, _3) {
   Counts counts = count_blanks(str, 4);
   int buffer_size = get_buffer_size(counts);
 
-  cr_assert_eq(buffer_size, 25);
+  cr_assert_eq(buffer_size, 26);
 }
 
 Test(get_buffer_size, _4) {
@@ -219,37 +219,56 @@ Test(get_buffer_size, _4) {
   Counts counts = count_blanks(str, 4);
   int buffer_size = get_buffer_size(counts);
 
-  cr_assert_eq(buffer_size, 30);
+  cr_assert_eq(buffer_size, 31);
 }
 
-//// ####################
-//// entab
-//// ####################
-//// Test(entab, _1) {
-////   char str[] = "a string \tx";
-////   Counts counts = count_blanks(str);
-////   int spaces_per_tab = 2;
-////   int size = get_buffer_size(counts, spaces_per_tab);
-////   int tab_stop = get_tab_stop(counts, spaces_per_tab);
-////   char buffer[size] = {};
-////   
-////   entab(str, buffer, tab_stop);
-////   printf("\"%s\"\n", buffer);
-//// 
-////   char expected[] = "a string x";
-////   cr_assert_eq(strcmp(buffer, expected), 0);
-//// }
-//
-//Test(entab, _2) {
-//  char str[] = "a   string \t";
-//  int spaces_per_tab = 2;
-//  Counts counts = count_blanks(str);
-//  int size = get_buffer_size(counts, spaces_per_tab);
-//  char buffer[size] = {};
-//  
-//  entab(str, buffer, tab_stop);
-//  printf("%d %d \"%s\"\n", size, str_len(buffer), buffer);
-//
-//  char expected[] = "a   string   ";
-//  cr_assert_eq(strcmp(buffer, expected), 0);
-//}
+// ####################
+// entab
+// ####################
+Test(entab, _1) {
+  char str[] = "a string \tx";
+  Counts counts = count_blanks(str, 2);
+  int size = get_buffer_size(counts);
+  char buffer[size] = {};
+  
+  entab(str, buffer, counts);
+
+  char expected[] = "a string x";
+  cr_assert_eq(strcmp(buffer, expected), 0);
+}
+
+Test(entab, _2) {
+  char str[] = "a   string \t";
+  Counts counts = count_blanks(str, 2);
+  int size = get_buffer_size(counts);
+  char buffer[size] = {};
+  
+  entab(str, buffer, counts);
+
+  char expected[] = "a   string   ";
+  cr_assert_eq(strcmp(buffer, expected), 0);
+}
+
+Test(entab, _3) {
+  char str[] = "a   str   ing \tx  ";
+  Counts counts = count_blanks(str, 4);
+  int size = get_buffer_size(counts);
+  char buffer[size] = {};
+  
+  entab(str, buffer, counts);
+
+  char expected[] = "a     str     ing     x     ";
+  cr_assert_eq(strcmp(buffer, expected), 0);
+}
+
+Test(entab, _4) {
+  char str[] = "a   str   ing \tx  s  asd  s";
+  Counts counts = count_blanks(str, 3);
+  int size = get_buffer_size(counts);
+  char buffer[size] = {};
+  
+  entab(str, buffer, counts);
+
+  char expected[] = "a    str    ing    x    s    asd    s";
+  cr_assert_eq(strcmp(buffer, expected), 0);
+}
